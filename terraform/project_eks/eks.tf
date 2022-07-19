@@ -163,15 +163,14 @@ module "eks_blueprints_kubernetes_addons" {
   }
 
   enable_aws_cloudwatch_metrics = var.enable_aws_cloudwatch_metrics
-  # An argument named "cloudwatch_metrics_helm_config" is not expected here. ????
-#   cloudwatch_metrics_helm_config = {
-#     name        = "aws-cloudwatch-metrics"
-#     chart       = "aws-cloudwatch-metrics"
-#     repository  = "https://aws.github.io/eks-charts"
-#     namespace   = "amazon-cloudwatch"
-#     description = "aws-cloudwatch-metrics Helm Chart deployment configuration"
-#     timeout     = "600"
-#   }
+  aws_cloudwatch_metrics_helm_config = {
+    name        = "aws-cloudwatch-metrics"
+    chart       = "aws-cloudwatch-metrics"
+    repository  = "https://aws.github.io/eks-charts"
+    namespace   = "amazon-cloudwatch"
+    description = "aws-cloudwatch-metrics Helm Chart deployment configuration"
+    timeout     = "600"
+  }
 
   enable_argocd = var.enable_argocd
   argocd_helm_config = {
@@ -202,6 +201,16 @@ module "eks_blueprints_kubernetes_addons" {
     namespace   = "prometheus"
     timeout     = "600"
     description = "Prometheus helm Chart deployment configuration"
+  }
+
+  enable_kubernetes_dashboard = var.enable_kubernetes_dashboard
+  kubernetes_dashboard_helm_config = {
+    name        = "kubernetes-dashboard"                   
+    repository  = "https://kubernetes.github.io/dashboard/"
+    chart       = "kubernetes-dashboard"
+    namespace   = "kube-system"
+    timeout     = "600"
+    description = "Kubernetes Dashboard Helm Chart"
   }
 
   tags = local.tags

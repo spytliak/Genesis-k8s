@@ -57,6 +57,9 @@ enable_prometheus = false
 # cloudwatch_metrics
 enable_aws_cloudwatch_metrics = true
 
+# kubernetes_dashboard
+enable_kubernetes_dashboard = true
+
 #-------------------------------
 # EKS Cluster IAM role
 #-------------------------------

@@ -503,3 +503,9 @@ variable "cloudwatch_metrics_addon_version" {
   default     = ""
   description = "Addon version for prometheusr"
 }
+
+variable "enable_kubernetes_dashboard" {
+  description = "Enable AWS prometheus"
+  type        = bool
+  default     = false
+}
