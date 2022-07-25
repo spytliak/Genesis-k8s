@@ -13,7 +13,7 @@ The repo is for creating AWS EKS and deploy the RESTful API application by Terra
 The project is in [project_eks](/terraform/project_eks/)  
 
 * [eks.tf](/terraform/project_eks/eks.tf)                                       - create AWS EKS by blueprint module
-* [eks.auto.tfvars](/terraform/project_eks/genesis.auto.tfvars)                - the overridden project variables  
+* [eks.auto.tfvars](/terraform/project_eks/eks.auto.tfvars)                     - the overridden project variables  
 * [app.tf](/terraform/project_eks/app.tf)                                       - deploy APP by provisioner
 * [locals.tf](/terraform/project_eks/locals.tf)                                 - all locals of project
 * [backend.tf](/terraform/project_eks/backend.tf)                               - the backend file (s3)
