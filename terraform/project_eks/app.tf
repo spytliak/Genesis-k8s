@@ -18,10 +18,10 @@ resource "null_resource" "K8S_Deploy_APP" {
     interpreter = ["/bin/bash", "-c"]
     environment = {
       KUBECONFIG_B64 = nonsensitive(base64encode(local.kubeconfig))
-      MANIFEST_FLASK = base64encode(templatefile("../../deploy/flask-app.yaml",{}))
+      MANIFEST_FLASK = base64encode(templatefile("../../deploy/flask-app.yaml", {}))
       MANIFEST_MYSQL = nonsensitive(base64encode(templatefile("../../deploy/mysql.yaml",
         {
-          "MYSQL_PASSWORD" = base64encode(var.MYSQL_PASSWORD)
+          "MYSQL_PASSWORD"      = base64encode(var.MYSQL_PASSWORD)
           "MYSQL_ROOT_PASSWORD" = base64encode(var.MYSQL_ROOT_PASSWORD)
         }
         )
