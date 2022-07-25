@@ -3,9 +3,7 @@ resource "null_resource" "K8S_Deploy_APP" {
   depends_on = [
     module.eks_blueprints_kubernetes_addons
   ]
-  triggers = {
-    #    CLUSTER_NAME_VAR = local.cluster_name
-  }
+  triggers = {}
   provisioner "local-exec" {
     when        = create
     on_failure  = continue
