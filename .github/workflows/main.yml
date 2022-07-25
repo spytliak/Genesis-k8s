@@ -42,16 +42,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setup Python and pip 
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-        cache: 'pip'
-
-    # Install the jq
-    - name: Setup jq
-      run: pip install jq --user
-
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
