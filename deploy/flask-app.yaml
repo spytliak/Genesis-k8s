@@ -74,15 +74,6 @@ kind: Service
 metadata:
   name: flask-app
   namespace: flask-app
-  annotations:
-    # service.beta.kubernetes.io/aws-load-balancer-ip-address-type: ipv4
-    # service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: http
-    # service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /api/health-check/ok
-    # service.beta.kubernetes.io/aws-load-balancer-healthcheck-healthy-threshold: "3"
-    # service.beta.kubernetes.io/aws-load-balancer-healthcheck-interval: "5"
-    # service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout: "5"
-    service.beta.kubernetes.io/aws-load-balancer-scheme: 'internet-facing'
-    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '60'
 spec:
   selector:
     name: flask-app
@@ -91,35 +82,34 @@ spec:
       port: 5000
       targetPort: flask
       name: flask-app-svc
-  type: LoadBalancer
-#
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#     namespace: flask-app
-#     name: flask-app-ingress
-#     annotations:
-#       kubernetes.io/ingress.class: alb
-#       alb.ingress.kubernetes.io/group.name: flask-app.main-group
-#       alb.ingress.kubernetes.io/scheme: internet-facing
-#       alb.ingress.kubernetes.io/target-type: ip
-#       alb.ingress.kubernetes.io/tags: Service=flask-app.Ingress
-#       alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":5000}]'
-#       alb.ingress.kubernetes.io/success-codes: 200
-#       alb.ingress.kubernetes.io/healthcheck-path: /api/health-check/ok
-#       alb.ingress.kubernetes.io/backend-protocol: HTTP
-#       alb.ingress.kubernetes.io/backend-protocol-version: HTTP1
-#       alb.ingress.kubernetes.io/healthcheck-protocol : HTTP
-#       alb.ingress.kubernetes.io/target-group-attributes: "deregistration_delay.timeout_seconds=30"
-# spec:
-#     rules:
-#         - http:
-#             paths:
-#             -   path: /*
-#                 pathType: Prefix
-#                 backend:
-#                     service:
-#                         name: flask-app-svc
-#                         port:
-#                             number: 5000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    namespace: flask-app
+    name: flask-app-ingress
+    annotations:
+        kubernetes.io/ingress.class: alb
+        alb.ingress.kubernetes.io/group.name: flask-app.main-group
+        alb.ingress.kubernetes.io/scheme: internal # internet-facing
+        alb.ingress.kubernetes.io/target-type: ip
+        alb.ingress.kubernetes.io/tags: Service=flask-app.Ingress
+        alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":5000}]'
+        alb.ingress.kubernetes.io/success-codes: 200,404
+        alb.ingress.kubernetes.io/healthcheck-path: /api/health-check/ok
+        alb.ingress.kubernetes.io/backend-protocol: HTTP
+        alb.ingress.kubernetes.io/healthcheck-protocol : HTTP
+        alb.ingress.kubernetes.io/target-group-attributes: "deregistration_delay.timeout_seconds=30"
+spec:
+    rules:
+        - http:
+            paths:
+            -   path: /
+                pathType: Prefix
+                backend:
+                    service:
+                        name: flask-app-svc
+                        port:
+                            number: 5000
+status:
+    loadBalancer: {}
