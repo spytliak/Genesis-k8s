@@ -24,6 +24,8 @@ spec:
   selector:
     matchLabels:
       app: flask-app
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
