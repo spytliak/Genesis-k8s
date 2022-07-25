@@ -516,12 +516,14 @@ variable "deploy_app" {
 
 variable "MYSQL_PASSWORD" {
   description = "MYSQL PASSWORD env for APP"
-  type        = string
+  type        = any
   default     = ""
+  sensitive   = true
 }
 
 variable "MYSQL_ROOT_PASSWORD" {
   description = "MYSQL ROOT PASSWORD env for APP"
-  type        = string
+  type        = any
   default     = ""
+  sensitive   = true
 }

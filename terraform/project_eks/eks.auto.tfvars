@@ -74,8 +74,8 @@ cluster_enabled_log_types = ["api", "audit", "authenticator", "controllerManager
 #-------------------------------
 #  Deploy APP
 #-------------------------------
-deploy_app = true
-MYSQL_PASSWORD = "MTIzNDU2"
+deploy_app          = true
+MYSQL_PASSWORD      = "MTIzNDU2"
 MYSQL_ROOT_PASSWORD = "bXlzcWxyb29"
 
 
