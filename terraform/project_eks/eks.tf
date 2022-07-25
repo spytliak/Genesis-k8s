@@ -19,7 +19,7 @@ provider "helm" {
 # EKS Blueprints
 #---------------------------------------------------------------
 module "eks_blueprints" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.5.0"
+  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.6.0"
 
   # EKS CLUSTER
   create_eks      = var.create_eks
@@ -68,10 +68,10 @@ resource "time_sleep" "wait_20_seconds_after_eks_blueprints" {
 }
 
 #---------------------------------------------------------------
-# EKS Blueprints kubernetes addons
+# EKS Blueprints kubernetes addons 
 #---------------------------------------------------------------
 module "eks_blueprints_kubernetes_addons" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints//modules/kubernetes-addons?ref=v4.5.0"
+  source = "github.com/aws-ia/terraform-aws-eks-blueprints//modules/kubernetes-addons?ref=v4.6.0"
 
   eks_cluster_id               = module.eks_blueprints.eks_cluster_id
   eks_cluster_endpoint         = module.eks_blueprints.eks_cluster_endpoint
@@ -205,7 +205,7 @@ module "eks_blueprints_kubernetes_addons" {
 
   enable_kubernetes_dashboard = var.enable_kubernetes_dashboard
   kubernetes_dashboard_helm_config = {
-    name        = "kubernetes-dashboard"                   
+    name        = "kubernetes-dashboard"
     repository  = "https://kubernetes.github.io/dashboard/"
     chart       = "kubernetes-dashboard"
     namespace   = "kube-system"
@@ -223,7 +223,6 @@ module "eks_blueprints_kubernetes_addons" {
 #---------------------------------------------------------------
 # Supporting Resources (VPC)
 #---------------------------------------------------------------
-
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 3.0"

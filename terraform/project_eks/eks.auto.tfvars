@@ -71,6 +71,13 @@ enable_irsa = true
 #-------------------------------
 cluster_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
+#-------------------------------
+#  Deploy APP
+#-------------------------------
+deploy_app = true
+MYSQL_PASSWORD = "MTIzNDU2"
+MYSQL_ROOT_PASSWORD = "bXlzcWxyb29"
+
 
 #-----------------------------------------------------------------------
 # Tags

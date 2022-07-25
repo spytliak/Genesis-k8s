@@ -38,11 +38,6 @@ variable "common_tags" {
 }
 
 
-
-
-
-
-
 #-------------------------------
 # EKS module variables (terraform-aws-modules/eks/aws)
 #-------------------------------
@@ -508,4 +503,25 @@ variable "enable_kubernetes_dashboard" {
   description = "Enable AWS prometheus"
   type        = bool
   default     = false
+}
+
+#-------------------------------
+#  Deploy APP
+#-------------------------------
+variable "deploy_app" {
+  description = "Deploy app by provisioner local-exec"
+  type        = bool
+  default     = false
+}
+
+variable "MYSQL_PASSWORD" {
+  description = "MYSQL PASSWORD env for APP"
+  type        = string
+  default     = ""
+}
+
+variable "MYSQL_ROOT_PASSWORD" {
+  description = "MYSQL ROOT PASSWORD env for APP"
+  type        = string
+  default     = ""
 }
