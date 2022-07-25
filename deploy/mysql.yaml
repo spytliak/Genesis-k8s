@@ -54,7 +54,8 @@ spec:
             memory: 512Mi
         env:
         - name: "MYSQL_USER"
-          configMapKeyRef:
+          valueFrom:
+            configMapKeyRef:
               name: mysql-config
               key: mysql-db-user
         - name: "MYSQL_PASSWORD"
