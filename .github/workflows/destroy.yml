@@ -31,7 +31,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./terraform/project_GENESIS
+        working-directory: ./terraform/project_eks
 
     steps:
       - name: Checkout
