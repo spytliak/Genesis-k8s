@@ -43,6 +43,5 @@ The project is in [project_eks](/terraform/project_eks/)
 #### Manifests
 
 The Manifests for APP are in [deploy](/deploy/)  
-
-[mysql.yaml](/deploy/mysql.yaml)               - deploy mysql: Namespace, Secret, ConfigMap, StatefulSet, Service
-[flask-app.yaml](/deploy/flask-app.yaml)       - deploy flask: ConfigMap, Deployment, Service, Ingress
+* [mysql.yaml](/deploy/mysql.yaml)               - deploy mysql: Namespace, Secret, ConfigMap, StatefulSet, Service
+* [flask-app.yaml](/deploy/flask-app.yaml)       - deploy flask: ConfigMap, Deployment, Service, Ingress
