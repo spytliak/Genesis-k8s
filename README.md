@@ -5,7 +5,7 @@ The repository is for Genesis DevOps School.
 [![Terraform Destroy](https://github.com/spytliak/Genesis-k8s/actions/workflows/destroy.yml/badge.svg)](https://github.com/spytliak/Genesis-k8s/actions/workflows/destroy.yml)
 
 ### Description
-The repo is for creating AWS EKS and deploy the RESTful API application by Terraform. 
+The repo is for creating AWS EKS and deploy the RESTful API application by Terraform.  
 NOTE:
  * The variable **deploy_app** is for creating APP (false is by default).
  * The variables **MYSQL_PASSWORD** and **MYSQL_ROOT_PASSWORD** is for MYSQL manifest.
@@ -39,3 +39,10 @@ The project is in [project_eks](/terraform/project_eks/)
   ├── variables.tf
   └── min-iam-policy.json
 ```
+
+#### Manifests
+
+The Manifests for APP are in [deploy](/deploy/)  
+
+[mysql.yaml](/deploy/mysql.yaml)               - deploy mysql: Namespace, Secret, ConfigMap, StatefulSet, Service
+[flask-app.yaml](/deploy/flask-app.yaml)       - deploy flask: ConfigMap, Deployment, Service, Ingress
