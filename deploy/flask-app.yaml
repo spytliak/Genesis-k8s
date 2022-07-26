@@ -93,13 +93,14 @@ metadata:
         alb.ingress.kubernetes.io/group.name: flask-app.main-group
         alb.ingress.kubernetes.io/scheme: internet-facing
         alb.ingress.kubernetes.io/target-type: ip
+        alb.ingress.kubernetes.io/ip-address-type: ipv4
         alb.ingress.kubernetes.io/tags: Service=flask-app.Ingress
-        alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":5000}]'
+        alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
         alb.ingress.kubernetes.io/success-codes: 200,404
         alb.ingress.kubernetes.io/healthcheck-path: /api/health-check/ok
         alb.ingress.kubernetes.io/backend-protocol: HTTP
         alb.ingress.kubernetes.io/healthcheck-protocol : HTTP
-        alb.ingress.kubernetes.io/target-group-attributes: "stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=60"
+        alb.ingress.kubernetes.io/target-group-attributes: "deregistration_delay.timeout_seconds=30"
 spec:
     rules:
         - http:
