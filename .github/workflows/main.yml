@@ -13,9 +13,10 @@ on:
        TF_LOG:
         description: 'Terraform LOG'
         required: false
-        #default: 'INFO' 
+        default: '' 
         type: choice
         options:
+        - ''
         - INFO
         - DEBUG
         - TRACE
