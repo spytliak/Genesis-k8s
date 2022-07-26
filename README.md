@@ -6,7 +6,9 @@ The repository is for Genesis DevOps School.
 
 ### Description
 The repo is for creating AWS EKS and deploy the RESTful API application by Terraform. 
-
+NOTE:
+ * The variable **deploy_app** is for creating APP (false is by default).
+ * The variables **MYSQL_PASSWORD** and **MYSQL_ROOT_PASSWORD** is for MYSQL manifest.
 
 ### Terraform
 
