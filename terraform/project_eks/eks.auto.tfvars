@@ -12,7 +12,7 @@ cluster_endpoint_private_access = true
 #-------------------------------
 # EKS module variables (terraform-aws-modules/eks/aws)
 #-------------------------------
-cluster_version = "1.22"
+cluster_version = "1.23"
 cluster_name    = "blueprint-eks"
 create_eks      = true
 
