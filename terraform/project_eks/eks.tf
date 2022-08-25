@@ -19,7 +19,7 @@ provider "helm" {
 # EKS Blueprints
 #---------------------------------------------------------------
 module "eks_blueprints" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.6.0"
+  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.7.0"
 
   # EKS CLUSTER
   create_eks      = var.create_eks
@@ -44,7 +44,7 @@ module "eks_blueprints" {
       capacity_type            = "ON_DEMAND"
       instance_types           = ["t3.medium"]
       ami_type                 = "AL2_x86_64"
-      min_size                 = "0"
+      min_size                 = "2"
       max_size                 = "4"
       desired_size             = "2"
       disk_size                = 50
@@ -71,7 +71,7 @@ resource "time_sleep" "wait_20_seconds_after_eks_blueprints" {
 # EKS Blueprints kubernetes addons 
 #---------------------------------------------------------------
 module "eks_blueprints_kubernetes_addons" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints//modules/kubernetes-addons?ref=v4.6.0"
+  source = "github.com/aws-ia/terraform-aws-eks-blueprints//modules/kubernetes-addons?ref=v4.7.0"
 
   eks_cluster_id               = module.eks_blueprints.eks_cluster_id
   eks_cluster_endpoint         = module.eks_blueprints.eks_cluster_endpoint
@@ -249,11 +249,13 @@ module "vpc" {
   public_subnet_tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
     "kubernetes.io/role/elb"                      = 1
+    "subnet/alb"                                  = "True"
   }
 
   private_subnet_tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
     "kubernetes.io/role/internal-elb"             = 1
+    "subnet/alb"                                  = "True"
   }
 
   tags = local.tags
