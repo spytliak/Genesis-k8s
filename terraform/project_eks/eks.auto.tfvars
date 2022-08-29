@@ -54,11 +54,19 @@ enable_argocd = true
 # prometheus
 enable_prometheus = false
 
+# grafana
+enable_grafana = false
+grafana_pass = "gr@f@n@"
+
 # cloudwatch_metrics
 enable_aws_cloudwatch_metrics = true
 
 # kubernetes_dashboard
 enable_kubernetes_dashboard = true
+
+# kube-prometheus-stack
+enable_kube_prometheus_stack = true
+kube_prometheus_stack_grafana_pass = "gr@f"
 
 #-------------------------------
 # EKS Cluster IAM role

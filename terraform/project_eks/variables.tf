@@ -505,6 +505,30 @@ variable "enable_kubernetes_dashboard" {
   default     = false
 }
 
+variable "enable_kube_prometheus_stack" {
+  description = "Enable kube-prometheus-stack"
+  type        = bool
+  default     = false
+}
+
+variable "enable_grafana" {
+  description = "Enable grafana"
+  type        = bool
+  default     = false
+}
+
+variable "grafana_pass" {
+  description = "Password for grafana"
+  type        = any
+  default     = "p@s$w0rd"
+}
+
+variable "kube_prometheus_stack_grafana_pass" {
+  description = "Password for grafana in kube_prometheus_stack"
+  type        = any
+  default     = "p@s$w0rd"
+}
+
 #-------------------------------
 #  Deploy APP
 #-------------------------------

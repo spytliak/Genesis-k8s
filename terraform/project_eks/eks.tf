@@ -130,6 +130,7 @@ module "eks_blueprints_kubernetes_addons" {
     namespace        = "ingress-nginx"
     create_namespace = true
     timeout          = "600"
+    values           = [templatefile("../../helm/ingress-nginx/chart/values.yaml", {})]
   }
 
   enable_aws_load_balancer_controller = var.enable_aws_load_balancer_controller
@@ -201,6 +202,45 @@ module "eks_blueprints_kubernetes_addons" {
     namespace   = "prometheus"
     timeout     = "600"
     description = "Prometheus helm Chart deployment configuration"
+  }
+
+  enable_kube_prometheus_stack = var.enable_kube_prometheus_stack
+  kube_prometheus_stack_helm_config = {
+    name       = "kube-prometheus-stack"
+    chart      = "kube-prometheus-stack"
+    repository = "https://prometheus-community.github.io/helm-charts"
+    namespace  = "kube-prometheus-stack"
+    timeout    = "600"
+    #values      = local.default_helm_values
+    description = "kube-prometheus-stack helm Chart deployment configuration"
+    set = [
+      {
+        name  = "kubeProxy.enabled"
+        value = false
+      }
+    ],
+    set_sensitive = [
+      {
+        name  = "grafana.adminPassword"
+        value = var.kube_prometheus_stack_grafana_pass
+      }
+    ]
+  }
+
+  enable_grafana = var.enable_grafana
+  grafana_helm_config = {
+    name       = "grafana"
+    chart      = "grafana"
+    repository = "https://grafana.github.io/helm-charts"
+    namespace  = "grafana"
+    #values      = local.default_helm_values
+    description = "Grafana Helm Chart deployment configuration"
+    set_sensitive = [
+      {
+        name  = "adminPassword"
+        value = "var.grafanapass"
+      }
+    ]
   }
 
   enable_kubernetes_dashboard = var.enable_kubernetes_dashboard
