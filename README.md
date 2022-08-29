@@ -44,4 +44,16 @@ The project is in [project_eks](/terraform/project_eks/)
 
 The Manifests for APP are in [deploy](/deploy/)  
 * [mysql.yaml](/deploy/mysql.yaml)               - deploy mysql: Namespace, Secret, ConfigMap, StatefulSet, Service
-* [flask-app.yaml](/deploy/flask-app.yaml)       - deploy flask: ConfigMap, Deployment, Service, Ingress
+* [flask-app.yaml](/deploy/flask-app.yaml)       - deploy flask: ConfigMap, Deployment, Service, Ingress, HorizontalPodAutoscaler, ServiceMonitor
+
+#### Check flask-app ingress
+```bash
+[sepy0416@WS-17690 project_eks]$ curl -i -H "Host: flask-app.nip.io" http://acfd1d53e6811425c976b0f7b1f9b246-1506568384.us-east-1.elb.amazonaws.com
+HTTP/1.1 200 OK
+Date: Mon, 29 Aug 2022 08:56:13 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 31
+Connection: keep-alive
+
+<p>Hello from students API!</p>
+```
