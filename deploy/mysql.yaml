@@ -27,7 +27,7 @@ kind: StatefulSet
 metadata:
   name: mysql
   labels:
-    name: mysql
+    app: mysql
   namespace: flask-app
 spec:
   selector:
@@ -96,7 +96,7 @@ metadata:
   namespace: flask-app
 spec:
   selector:
-    name: mysql
+    app: mysql
   ports:
     - protocol: TCP
       port: 3306
