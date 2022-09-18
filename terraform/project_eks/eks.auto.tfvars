@@ -16,6 +16,21 @@ cluster_version = "1.23"
 cluster_name    = "blueprint-eks"
 create_eks      = true
 
+managed_node_groups = {
+  node_group_name          = "managed-spot"
+  enable_node_group_prefix = true
+  capacity_type            = "SPOT"
+  instance_types           = ["t3.medium"]
+  ami_type                 = "AL2_x86_64"
+  min_size                 = "1"
+  max_size                 = "4"
+  desired_size             = "2"
+  disk_size                = 50
+  tags = {
+    Name = "managed-spot"
+  }
+}
+
 #-------------------------------
 # aws-auth Config Map
 #-------------------------------
@@ -67,6 +82,9 @@ enable_kubernetes_dashboard = true
 # kube-prometheus-stack
 enable_kube_prometheus_stack = true
 kube_prometheus_stack_grafana_pass = "gr@f"
+
+# kubecost
+enable_kubecost = false
 
 #-------------------------------
 # EKS Cluster IAM role
