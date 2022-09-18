@@ -19,7 +19,7 @@ provider "helm" {
 # EKS Blueprints
 #---------------------------------------------------------------
 module "eks_blueprints" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.7.0"
+  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.10.0"
 
   # EKS CLUSTER
   create_eks      = var.create_eks
@@ -37,23 +37,12 @@ module "eks_blueprints" {
   cluster_endpoint_private_access = var.cluster_endpoint_private_access
 
   # EKS MANAGED NODE GROUPS
-  managed_node_groups = {
-    mg = {
-      node_group_name          = "managed-ondemand"
-      enable_node_group_prefix = true
-      capacity_type            = "ON_DEMAND"
-      instance_types           = ["t3.medium"]
-      ami_type                 = "AL2_x86_64"
-      min_size                 = "2"
-      max_size                 = "4"
-      desired_size             = "2"
-      disk_size                = 50
-      subnet_ids               = module.vpc.private_subnets
-
-      tags = {
-        Name = "managed-ondemand"
+  managed_node_groups = { 
+    mg =  merge(
+      var.managed_node_groups, {
+        subnet_ids      = module.vpc.private_subnets
       }
-    }
+    )
   }
 
   tags = local.tags
@@ -71,7 +60,7 @@ resource "time_sleep" "wait_20_seconds_after_eks_blueprints" {
 # EKS Blueprints kubernetes addons 
 #---------------------------------------------------------------
 module "eks_blueprints_kubernetes_addons" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints//modules/kubernetes-addons?ref=v4.7.0"
+  source = "github.com/aws-ia/terraform-aws-eks-blueprints//modules/kubernetes-addons?ref=v4.10.0"
 
   eks_cluster_id               = module.eks_blueprints.eks_cluster_id
   eks_cluster_endpoint         = module.eks_blueprints.eks_cluster_endpoint
@@ -89,6 +78,7 @@ module "eks_blueprints_kubernetes_addons" {
     resolve_conflicts = "OVERWRITE"
     namespace         = "kube-system"
     timeout           = "600"
+    description = "vpc-cni helm Chart deployment configuration"
   }
 
   enable_amazon_eks_aws_ebs_csi_driver = var.enable_amazon_eks_aws_ebs_csi_driver
@@ -99,6 +89,7 @@ module "eks_blueprints_kubernetes_addons" {
     resolve_conflicts = "OVERWRITE"
     namespace         = "kube-system"
     timeout           = "600"
+    description = "aws-ebs-csi-driver helm Chart deployment configuration"
   }
 
   enable_amazon_eks_coredns = var.enable_amazon_eks_coredns
@@ -109,6 +100,7 @@ module "eks_blueprints_kubernetes_addons" {
     resolve_conflicts = "OVERWRITE"
     namespace         = "kube-system"
     timeout           = "600"
+    description = "coredns helm Chart deployment configuration"
   }
 
   enable_amazon_eks_kube_proxy = var.enable_amazon_eks_kube_proxy
@@ -119,6 +111,7 @@ module "eks_blueprints_kubernetes_addons" {
     resolve_conflicts = "OVERWRITE"
     namespace         = "kube-system"
     timeout           = "600"
+    description = "kube-proxy helm Chart deployment configuration"
   }
 
   # Ingress
@@ -130,6 +123,7 @@ module "eks_blueprints_kubernetes_addons" {
     namespace        = "ingress-nginx"
     create_namespace = true
     timeout          = "600"
+    description = "ingress-nginx helm Chart deployment configuration"
     values           = [templatefile("../../helm/ingress-nginx/chart/values.yaml", {})]
   }
 
@@ -140,6 +134,8 @@ module "eks_blueprints_kubernetes_addons" {
     repository = "https://aws.github.io/eks-charts"
     namespace  = "kube-system"
     timeout    = "600"
+    description = "aws-load-balancer-controller helm Chart deployment configuration"
+    # values = [templatefile("../../helm/aws_load_balancer_controller/chart/values.yaml", {})]
   }
 
   # Add-ons
@@ -149,8 +145,9 @@ module "eks_blueprints_kubernetes_addons" {
     chart       = "metrics-server"
     repository  = "https://kubernetes-sigs.github.io/metrics-server/"
     namespace   = "kube-system"
-    description = "Metric server helm Chart deployment configuration"
     timeout     = "600"
+    description = "Metric server helm Chart deployment configuration"
+    # values = [templatefile("../../helm/metrics_server/chart/values.yaml", {})]
   }
 
   enable_cluster_autoscaler = var.enable_cluster_autoscaler
@@ -159,8 +156,9 @@ module "eks_blueprints_kubernetes_addons" {
     chart       = "cluster-autoscaler"
     repository  = "https://kubernetes.github.io/autoscaler"
     namespace   = "kube-system"
-    description = "Cluster AutoScaler helm Chart deployment configuration."
     timeout     = "600"
+    description = "Cluster AutoScaler helm Chart deployment configuration."
+    # values = [templatefile("../../helm/cluster_autoscaler/chart/values.yaml", {})]
   }
 
   enable_aws_cloudwatch_metrics = var.enable_aws_cloudwatch_metrics
@@ -169,8 +167,9 @@ module "eks_blueprints_kubernetes_addons" {
     chart       = "aws-cloudwatch-metrics"
     repository  = "https://aws.github.io/eks-charts"
     namespace   = "amazon-cloudwatch"
-    description = "aws-cloudwatch-metrics Helm Chart deployment configuration"
     timeout     = "600"
+    description = "aws-cloudwatch-metrics Helm Chart deployment configuration"
+    # values = [templatefile("../../helm/cloudwatch_metrics/chart/values.yaml", {})]
   }
 
   enable_argocd = var.enable_argocd
@@ -182,6 +181,7 @@ module "eks_blueprints_kubernetes_addons" {
     timeout          = "600"
     create_namespace = true
     description      = "The ArgoCD Helm Chart deployment configuration"
+    # values = [templatefile("../../helm/argocd/chart/values.yaml", {})]
   }
 
   enable_aws_for_fluentbit = var.enable_aws_for_fluentbit
@@ -191,7 +191,8 @@ module "eks_blueprints_kubernetes_addons" {
     repository  = "https://aws.github.io/eks-charts"
     namespace   = "aws-for-fluent-bit"
     timeout     = "600"
-    description = "aws-for-fluentbit Helm Chart deployment configuration"
+    description = "aws-for-fluent-bit Helm Chart deployment configuration"
+    # values = [templatefile("../../helm/fluentbit/chart/values.yaml", {})]
   }
 
   enable_prometheus = var.enable_prometheus
@@ -202,6 +203,7 @@ module "eks_blueprints_kubernetes_addons" {
     namespace   = "prometheus"
     timeout     = "600"
     description = "Prometheus helm Chart deployment configuration"
+    # values = [templatefile("../../helm/prometheus/chart/values.yaml", {})]
   }
 
   enable_kube_prometheus_stack = var.enable_kube_prometheus_stack
@@ -211,8 +213,8 @@ module "eks_blueprints_kubernetes_addons" {
     repository = "https://prometheus-community.github.io/helm-charts"
     namespace  = "kube-prometheus-stack"
     timeout    = "600"
-    #values      = local.default_helm_values
     description = "kube-prometheus-stack helm Chart deployment configuration"
+    # values      = [templatefile("../../helm/kube-prometheus-stack/chart/values.yaml", {})]
     set = [
       {
         name  = "kubeProxy.enabled"
@@ -233,8 +235,8 @@ module "eks_blueprints_kubernetes_addons" {
     chart      = "grafana"
     repository = "https://grafana.github.io/helm-charts"
     namespace  = "grafana"
-    #values      = local.default_helm_values
     description = "Grafana Helm Chart deployment configuration"
+    # values      = [templatefile("../../helm/grafana/chart/values.yaml", {})]
     set_sensitive = [
       {
         name  = "adminPassword"
@@ -251,6 +253,17 @@ module "eks_blueprints_kubernetes_addons" {
     namespace   = "kube-system"
     timeout     = "600"
     description = "Kubernetes Dashboard Helm Chart"
+    # values = [templatefile("../../helm/kubernetes_dashboard/chart/values.yaml", {})]
+  }
+
+  enable_kubecost = var.enable_kubecost
+  kubecost_helm_config = {
+    name       = "kubecost"
+    repository = "oci://public.ecr.aws/kubecost"
+    chart      = "cost-analyzer"
+    namespace  = "kubecost"
+    description = "Kubecost Helm Chart deployment configuration"
+    # values = [templatefile("../../helm/kubecost/chart/values.yaml", {})]
   }
 
   tags = local.tags
@@ -265,7 +278,7 @@ module "eks_blueprints_kubernetes_addons" {
 #---------------------------------------------------------------
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 3.0"
+  version = "~> 3.14"
 
   name = local.name
   cidr = local.vpc_cidr
@@ -278,7 +291,6 @@ module "vpc" {
   single_nat_gateway   = true
   enable_dns_hostnames = true
 
-  # Manage so we can name
   manage_default_network_acl    = true
   default_network_acl_tags      = { Name = "${local.name}-default" }
   manage_default_route_table    = true
