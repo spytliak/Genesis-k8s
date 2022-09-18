@@ -1,10 +1,11 @@
 # Genesis-k8s
-The repository is for Genesis DevOps School. 
+The repository is for Genesis DevOps School.  
 
 [![EKS](https://github.com/spytliak/Genesis-k8s/actions/workflows/main.yml/badge.svg)](https://github.com/spytliak/Genesis-k8s/actions/workflows/main.yml)
 [![Terraform Destroy](https://github.com/spytliak/Genesis-k8s/actions/workflows/destroy.yml/badge.svg)](https://github.com/spytliak/Genesis-k8s/actions/workflows/destroy.yml)
 
 ### Description
+The homework is in [README_Task.md](README_Task.md)  
 The repo is for creating AWS EKS and deploy the RESTful API application by Terraform.  
 NOTE:
  * The variable **deploy_app** is for creating APP (false is by default).
