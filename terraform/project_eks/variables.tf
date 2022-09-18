@@ -529,6 +529,12 @@ variable "kube_prometheus_stack_grafana_pass" {
   default     = "p@s$w0rd"
 }
 
+variable "enable_kubecost" {
+  description = "Enable kubecost"
+  type        = bool
+  default     = false
+}
+
 #-------------------------------
 #  Deploy APP
 #-------------------------------
